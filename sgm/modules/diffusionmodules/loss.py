@@ -111,3 +111,19 @@ class StandardDiffusionLoss(nn.Module):
             return loss
         else:
             raise NotImplementedError(f"Unknown loss type {self.loss_type}")
+
+
+class CardiacDiffusionLoss(StandardDiffusionLoss):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+    def forward(self, network: nn.Module, denoiser: Denoiser, conditioner: GeneralConditioner, input: torch.Tensor, batch: Dict) -> torch.Tensor:
+        from einops import rearrange, repeat
+        for k in ['cond_frames', 'cond_frames_without_noise']:
+            batch[k] = rearrange(batch[k], "b f ... -> (b f) ...") # rearange to satisfy the assert in FrozenOpenCLIPImageEmbedder
+        
+        cond = conditioner(batch)
+        print("cond_keys in loss.py", cond.keys()) # TODO: check cond_keys and val shape
+        # for k, v in cond.items():
+        #     print("in loss.py", k, v.shape)
+        return self._forward(network, denoiser, cond, input, batch)

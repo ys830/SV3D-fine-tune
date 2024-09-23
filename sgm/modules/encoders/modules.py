@@ -964,7 +964,17 @@ class SV3DConcatTimestepEmbedderND(ConcatTimestepEmbedderND):
         # emb = emb.to(x.dtype) ### ToDo: Check if this is necessary
         return emb
 
-
+class CardiacConcatTimestepEmbedderND(ConcatTimestepEmbedderND):
+    def __init__(self, outdim):
+        super().__init__(outdim)
+        
+    def forward(self, x):
+        # TODO: check the shape of x and the f
+        assert x.ndim == 2 # bs, f
+        bs, f = x.shape[0], x.shape[1]
+        x = rearrange(x, "b f -> (b f)")
+        emb = self.timestep(x)
+        return emb
 class GaussianEncoder(Encoder, AbstractEmbModel):
     def __init__(
         self, weight: float = 1.0, flatten_output: bool = True, *args, **kwargs

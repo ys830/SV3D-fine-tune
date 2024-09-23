@@ -13,3 +13,7 @@ notebook
 __pycache__/
 *.pyc
 .DS_Store
+
+objav*
+cheeckpoints*
+input*

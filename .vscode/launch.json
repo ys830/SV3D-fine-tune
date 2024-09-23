@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python : sv4d",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "--name", "Cardaic-refined-data",
+                "--base", "/data/yisi/mywork/SV3D-fine-tune/configs/training/sv3d_cardiac.yaml",
+                "--projectname", "SV3D-fine-tune",
+                "--wandb",
+                "--no-test"
+            ],
+            "console": "integratedTerminal",
+            "pythonPath": "/home/yisi/bin/python"
+        }
+    ]
+}

@@ -6,6 +6,7 @@ import torch
 from einops import rearrange, repeat
 
 from ...util import append_dims, default
+from typing import Union, List
 
 logpy = logging.getLogger(__name__)
 
@@ -105,7 +106,8 @@ class TrianglePredictionGuider(LinearPredictionGuider):
         max_scale: float,
         num_frames: int,
         min_scale: float = 1.0,
-        period: float | List[float] = 1.0,
+        # period: float | List[float] = 1.0,
+        period: Union[float, List[float]] = 1.0,
         period_fusing: Literal["mean", "multiply", "max"] = "max",
         additional_cond_keys: Optional[Union[List[str], str]] = None,
     ):
